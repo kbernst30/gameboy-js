@@ -1331,7 +1331,7 @@ function Gameboy() {
 				// accordingly
 				var DEVal = (ths.registers.D << 8) ^ ths.registers.E;
 				var HLVal = (ths.registers.H << 8) ^ ths.registers.L;
-				var newVal = BCVal + HLVal;
+				var newVal = DEVal + HLVal;
 
 				ths.setFlagBit(ths.SUBTRACT_BIT, false);
 				var halfCarry = ((HLVal & 0xFF00) & 0xF) + ((DEVal >> 8) & 0xF);
@@ -1952,7 +1952,7 @@ function Gameboy() {
 				// LD (HL), A - 8 cycles - Load value in register A into memory
 				// address found in HL
 				var address = (ths.registers.H << 8) ^ ths.registers.A;
-				ths.mmu.write(address, ths.registers.L);
+				ths.mmu.write(address, ths.registers.A);
 				return 8;
 			case 0x78:
 				// LD A, B - 4 cycles - Load value in register B into register
@@ -2540,7 +2540,7 @@ function Gameboy() {
 				return 12;
 			case 0xE2:
 				// LD (C), A - 8 cycles - Put A into address 0xFF00 + address in C
-				var address = 0xFF00 + ths.mmu.read(ths.registers.C);
+				var address = 0xFF00 + ths.registers.C;
 				ths.mmu.write(address, ths.registers.A);
 				return 8;
 			case 0xE5:
